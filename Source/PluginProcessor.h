@@ -59,6 +59,15 @@ public:
         *this,nullptr,"Parameters",createParameterLayout()
     };
 private:
+    //ÓÃÓÚ¹ýÂË¸´ÔÓµÄÇ¶Ì×ÃüÃû¿Õ¼ä
+    //IIR£º±íÊ¾ÎÞÏÞÂö³åÏìÓ¦ÂË²¨Æ÷£¨Infinite Impulse Response£©¡£IIRÂË²¨Æ÷ÊÇÍ¨¹ýµÝ¹é¼ÆËãÊä³öµÄÂË²¨Æ÷ÀàÐÍ£¬¾ßÓÐ½Ï¸ßµÄÐ§ÂÊºÍ½ÏµÍµÄ¼ÆËã¸´ÔÓ¶È¡£
+    using Filter = juce::dsp::IIR::Filter<float>;
+    //ProcessorChain£ºProcessorChain ÊÇÒ»¸öÄ£°åÀà£¬ÓÃÓÚ½«¶à¸ö´¦ÀíÆ÷£¨processors£©Á¬½ÓÔÚÒ»Æð£¬ÒÔË³Ðò·½Ê½´¦ÀíÐÅºÅ¡£Ã¿¸ö´¦ÀíÆ÷ÒÀ´Î´¦ÀíÊäÈëÐÅºÅ²¢½«Æä´«µÝ¸øÏÂÒ»¸ö´¦ÀíÆ÷¡£
+    using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
+
+    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
+    
+    MonoChain leftChain, rightChain;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEQAudioProcessor)
 };
